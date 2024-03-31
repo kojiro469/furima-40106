@@ -2,16 +2,20 @@ class OrdersController < ApplicationController
   before_action :set_item, only: [:index, :create]
 
   def index
-    @order_shipping = OrderShipping.new
+    if @item.order.nil? && @item.user_id != current_user.id
+      @order_shipping = OrderShipping.new
+    else
+      redirect_to root_path
+    end
   end
 
   def create
-    @order_shipping = OrderShipping.new
+    @order_shipping = OrderShipping.new(order_params)
     if @order_shipping.valid?
       @order_shipping.save
       redirect_to root_path
     else
-      render :index, status: unprocessable_entity
+      render :index, status: :unprocessable_entity
     end
   end
 
@@ -25,7 +29,7 @@ class OrdersController < ApplicationController
       :address,
       :building_name,
       :phone_number,
-    ).merge(item_id: @item.id, user_id: current_id)
+    ).merge(item_id: @item.id, user_id: current_user.id)
   end
 
   def set_item
