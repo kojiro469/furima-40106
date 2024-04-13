@@ -60,6 +60,11 @@ RSpec.describe OrderShipping, type: :model do
         @order_shipping.valid?
         expect(@order_shipping.errors.full_messages).to include('Phone number Please enter a valid phone number. Example: 09012345678') # rubocop:disable Layout/LineLength
       end
+      it 'phone_numberに数字以外が含まれると保存できないこと' do
+        @order_shipping.phone_number = '090-1234-5678'
+        @order_shipping.valid?
+        expect(@order_shipping.errors.full_messages).to include('Phone number Please enter a valid phone number. Example: 09012345678') # rubocop:disable Layout/LineLength
+      end
       it 'user_idが空だと保存できないこと' do
         @order_shipping.user_id = ''
         @order_shipping.valid?
