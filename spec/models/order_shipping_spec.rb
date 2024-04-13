@@ -53,12 +53,12 @@ RSpec.describe OrderShipping, type: :model do
       it 'phone_numberが10桁未満だと保存できないこと' do
         @order_shipping.phone_number = '090123456'
         @order_shipping.valid?
-        expect(@order_shipping.errors.full_messages).to include('Phone number Please enter a valid phone number. Example: 09012345678')
+        expect(@order_shipping.errors.full_messages).to include('Phone number Please enter a valid phone number. Example: 09012345678') # rubocop:disable Layout/LineLength
       end
       it 'phone_numberが12桁以上だと保存できないこと' do
         @order_shipping.phone_number = '090123456789'
         @order_shipping.valid?
-        expect(@order_shipping.errors.full_messages).to include('Phone number Please enter a valid phone number. Example: 09012345678')
+        expect(@order_shipping.errors.full_messages).to include('Phone number Please enter a valid phone number. Example: 09012345678') # rubocop:disable Layout/LineLength
       end
       it 'user_idが空だと保存できないこと' do
         @order_shipping.user_id = ''
@@ -69,6 +69,11 @@ RSpec.describe OrderShipping, type: :model do
         @order_shipping.item_id = ''
         @order_shipping.valid?
         expect(@order_shipping.errors.full_messages).to include("Item can't be blank")
+      end
+      it 'tokenが空だと保存できないこと' do
+        @order_shipping.token = ''
+        @order_shipping.valid?
+        expect(@order_shipping.errors.full_messages).to include("Token can't be blank")
       end
     end
   end
